@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Faett_Core
+ *
+ * NOTICE OF LICENSE
+ * 
+ * Faett_Core is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * Faett_Core is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Faett_Core.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Faett_Core to newer
+ * versions in the future. If you wish to customize Faett_Core for your
+ * needs please refer to http://www.faett.net for more information.
+ *
+ * @category   Faett
+ * @package    Faett_Core
+ * @copyright  Copyright (c) 2009 <tw@faett.net> Tim Wagner
+ * @license    <http://www.gnu.org/licenses/> 
+ * 			   GNU General Public License (GPL 3)
+ */
+-->
+<config>
+    <modules>
+        <Faett_Core>
+            <version>${version}</version>
+        </Faett_Core>
+    </modules>
+    <global>
+        <helpers>
+            <faettcore>
+                <class>Faett_Core_Helper</class>
+            </faettcore>
+        </helpers>
+    </global>
+    <adminhtml>
+		<acl>
+			<resources>
+				<admin>
+					<children>
+						<system>
+							<children>
+								<config>
+									<children>
+										<core translate="title" module="faettcore">
+											<title>Core</title>
+											<sort_order>10</sort_order>
+										</core>
+									</children>
+								</config>
+							</children>
+						</system>
+					</children>
+				</admin>
+			</resources>
+		</acl>
+	</adminhtml>
+</config>

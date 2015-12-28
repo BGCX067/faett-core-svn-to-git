@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.7.1" version="2.0"
+	xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+    http://pear.php.net/dtd/tasks-1.0.xsd
+    http://pear.php.net/dtd/package-2.0
+    http://pear.php.net/dtd/package-2.0.xsd">
+	<name>${ant.project.name}</name>
+	<channel>www.faett.net</channel>
+	<summary>Core Magento Module for handling PEAR packages</summary>
+	<description>
+		This extension provides functionality for handling PEAR packages by wrapping
+		the local PEAR repository tools.
+	</description>
+	<lead>
+		<name>Tim Wagner</name>
+		<user>wagner_tim78</user>
+		<email>wagner_tim78@hotmail.com</email>
+		<active>yes</active>
+	</lead>
+	<date>${actual.date}</date>
+	<time>${actual.time}</time>
+	<version>
+		<release>${version}</release>
+		<api>${api.version}</api>
+	</version>
+	<stability>
+		<release>${release.stability}</release>
+		<api>${api.stability}</api>
+	</stability>
+	<license uri="http://www.gnu.org/licenses/gpl-3.0.txt">GPL 3</license>
+	<notes>
+		- Switching to Google Code for Project Hosting
+		- Switching from OSL 3.0 to GPL 3
+	</notes>
+	<contents/>
+	<dependencies>
+		<required>
+			<php>
+				<min>5.2.0</min>
+				<max>6.0</max>
+			</php>
+			<pearinstaller>
+				<min>1.6.2</min>
+			</pearinstaller>
+		</required>
+	</dependencies>
+	<phprelease />
+	<changelog>
+		<release>
+			<version>
+				<release>${version}</release>
+				<api>${api.version}</api>
+			</version>
+			<stability>
+				<release>${release.stability}</release>
+				<api>${api.stability}</api>
+			</stability>
+			<date>${actual.date}</date>
+			<license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL 3.0</license>
+			<notes>
+				- Switching to Google Code for Project Hosting
+				- Switching from OSL 3.0 to GPL 3
+			</notes>
+		</release>
+		<release>
+			<version>
+				<release>0.1.4</release>
+				<api>0.1.1</api>
+			</version>
+			<stability>
+				<release>beta</release>
+				<api>beta</api>
+			</stability>
+			<date>2010-05-08</date>
+			<license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL 3.0</license>
+			<notes>
+				- Adding new getUsername() and getPassword() methods to service
+			</notes>
+		</release>
+		<release>
+			<version>
+				<release>0.1.3</release>
+				<api>0.1.1</api>
+			</version>
+			<stability>
+				<release>beta</release>
+				<api>beta</api>
+			</stability>
+			<date>2010-03-03</date>
+			<license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL 3.0</license>
+			<notes>
+				- Bugfixing invalid Exception call
+			</notes>
+		</release>
+		<release>
+			<version>
+				<release>0.1.2</release>
+				<api>0.1.0</api>
+			</version>
+			<stability>
+				<release>beta</release>
+				<api>beta</api>
+			</stability>
+			<date>2010-03-01</date>
+			<license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL 3.0</license>
+			<notes>
+				- Switching to new channel
+			</notes>
+		</release>
+		<release>
+			<version>
+				<release>0.1.1</release>
+				<api>0.1.0</api>
+			</version>
+			<stability>
+				<release>beta</release>
+				<api>beta</api>
+			</stability>
+			<date>2010-02-28</date>
+			<license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL 3.0</license>
+			<notes>
+				- Adding log stream to Faett_Core_Frontend_PEAR
+			</notes>
+		</release>
+		<release>
+			<version>
+				<release>0.1.0</release>
+				<api>0.1.0</api>
+			</version>
+			<stability>
+				<release>beta</release>
+				<api>beta</api>
+			</stability>
+			<date>2010-01-01</date>
+			<license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL 3.0</license>
+			<notes>
+				- Initial release
+			</notes>
+		</release>
+	</changelog>
+</package>

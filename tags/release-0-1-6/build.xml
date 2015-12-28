@@ -1,0 +1,246 @@
+<?xml version="1.0"?>
+<project name="Faett_Core" default="build" basedir=".">
+	<property file="${basedir}/build.properties"/>
+	<property file="${basedir}/build.default.properties"/>
+	<property environment="env" />
+	<property name="namespace" value="Faett" />
+	<property name="module" value="Core"/>
+	<property name="unique.name" value="${namespace}/${module}" />
+	<property name="pear.dir" value="${basedir}/pear" />
+	<property name="php-src.dir" value="${basedir}/src" />
+	<property name="php-test.dir" value="${basedir}/tests" />
+	<property name="tmp.dir" value="${basedir}/tmp" />
+	<property name="magento-src.dir" value="${basedir}/magento-src" />
+	<property name="php-test.dir" value="${basedir}/tests" />
+	<property name="php-target.dir" value="${basedir}/target"/>
+	<!-- ==================================================================== -->
+	<!-- Cleans the directories with the generated source files				  -->
+	<!-- ==================================================================== -->
+	<target name="clean" description="Cleans almost everything, so use carefully.">
+		<delete dir="${php-target.dir}" includeemptydirs="true" quiet="false" verbose="true" failonerror="true"/>
+	</target>
+	<!-- ==================================================================== -->
+	<!-- Prepares all the required directories								  -->
+	<!-- ==================================================================== -->
+	<target name="prepare" depends="clean" description="Prepares all the required directories.">
+		<mkdir dir="${php-target.dir}" />
+		<mkdir dir="${php-target.dir}/reports" />
+		<mkdir dir="${php-target.dir}/reports/coverage" />
+	</target>
+	<!-- ==================================================================== -->
+	<!-- Copies the sources to the target directory							  -->
+	<!-- ==================================================================== -->
+	<target name="copy" depends="prepare" description="Copies the sources to the target directory.">
+		<copy todir="${php-target.dir}/${unique.name}" preservelastmodified="true">
+			<fileset dir="${php-src.dir}">
+				<include name="**/*" />
+			</fileset>
+        	<filterchain>
+				<expandproperties/>
+			</filterchain>
+		</copy>
+	</target>
+    <!-- ==================================================================== -->
+    <!-- Generates a ZIP archive                                              -->
+    <!-- ==================================================================== -->
+    <target name="create-zip" depends="copy" description="Generates a ZIP archive.">
+    	<zip destfile="${php-target.dir}/${ant.project.name}-${version}.zip" basedir="${php-target.dir}/${unique.name}" />
+    </target>
+	<!-- ==================================================================== -->
+	<!-- Copies the sources to the deploy directory     					  -->
+	<!-- ==================================================================== -->
+	<target name="deploy" depends="copy" description="Copies the sources to the deploy directory.">		
+		<copy todir="${deploy.dir}" overwrite="true" preservelastmodified="true">
+			<fileset dir="${php-target.dir}/${unique.name}">
+				<include name="**"/>
+			</fileset>
+		</copy>
+	</target>
+    <!-- ==================================================================== -->
+    <!-- Prepares the PEAR channel in the target directory, necessary for the -->
+    <!-- packages this project is related                   				  -->
+    <!-- ==================================================================== -->
+    <target name="prepare-pear" depends="copy" description="Prepares the PEAR channel in the target directory, necessary for the packages this project is related.">
+        <!-- initialize the PEAR directory -->
+        <exec dir="${php-target.dir}" executable="${bin.dir}/pear">
+            <arg value="config-create" />
+            <arg value="${php-target.dir}/" />
+            <arg value=".pearrc" />
+        </exec>
+        <exec dir="${php-target.dir}" executable="${bin.dir}/pear">
+            <arg value="-c" />
+            <arg value=".pearrc" />
+            <arg value="config-set" />
+            <arg value="data_dir" />
+            <arg value="pear/php/data" />
+        </exec>
+        <exec dir="${php-target.dir}" executable="${bin.dir}/pear">
+            <arg value="-c" />
+            <arg value=".pearrc" />
+            <arg value="config-set" />
+            <arg value="preferred_state" />
+            <arg value="alpha" />
+        </exec>
+        <exec dir="${php-target.dir}" executable="${bin.dir}/pear">
+            <arg value="-c" />
+            <arg value=".pearrc" />
+            <arg value="install" />
+            <arg value="PEAR" />
+        </exec>
+        <exec dir="${php-target.dir}" executable="${bin.dir}/pear">
+            <arg value="-c" />
+            <arg value=".pearrc" />
+            <arg value="install" />
+            <arg value="PEAR_Frontend_Web" />
+        </exec>
+        <exec dir="${php-target.dir}" executable="${bin.dir}/pear">
+            <arg value="-c" />
+            <arg value=".pearrc" />
+            <arg value="channel-update" />
+            <arg value="pear.php.net" />
+        </exec>
+        <exec dir="${php-target.dir}" executable="${bin.dir}/pear">
+            <arg value="-c" />
+            <arg value=".pearrc" />
+            <arg value="channel-discover" />
+            <arg value="connect.techdivision.com" />
+        </exec>
+        <exec dir="${php-target.dir}" executable="${bin.dir}/pear">
+            <arg value="-c" />
+            <arg value=".pearrc" />
+            <arg value="install" />
+            <arg value="techdivision/PEAR_Command" />
+        </exec>
+        <exec dir="${php-target.dir}" executable="${bin.dir}/pear">
+            <arg value="-c" />
+            <arg value=".pearrc" />
+            <arg value="install" />
+            <arg value="techdivision/PEAR_Installer_Role" />
+        </exec>
+        <exec dir="${php-target.dir}" executable="${bin.dir}/pear">
+            <arg value="-c" />
+            <arg value=".pearrc" />
+            <arg value="install" />
+            <arg value="techdivision/TechDivision_AOP" />
+        </exec>
+        <exec dir="${php-target.dir}" executable="${bin.dir}/pear">
+            <arg value="-c" />
+            <arg value=".pearrc" />
+            <arg value="install" />
+            <arg value="techdivision/TechDivision_XHProfPHPUnit" />
+        </exec>
+        <exec dir="${php-target.dir}" executable="${bin.dir}/pear">
+            <arg value="-c" />
+            <arg value=".pearrc" />
+            <arg value="install" />
+            <arg value="techdivision/Mage" />
+        </exec>
+        <exec dir="${php-target.dir}" executable="${bin.dir}/pear">
+            <arg value="-c" />
+            <arg value=".pearrc" />
+            <arg value="install" />
+            <arg value="techdivision/Mage_Core" />
+        </exec>
+        <exec dir="${php-target.dir}" executable="${bin.dir}/pear">
+            <arg value="-c" />
+            <arg value=".pearrc" />
+            <arg value="install" />
+            <arg value="techdivision/Mage_Catalog" />
+        </exec>
+        <exec dir="${php-target.dir}" executable="${bin.dir}/pear">
+            <arg value="-c" />
+            <arg value=".pearrc" />
+            <arg value="install" />
+            <arg value="techdivision/Zend" />
+        </exec>
+    </target>
+	<!-- ==================================================================== -->
+	<!-- Copies the package definition file to the target directory and		  -->
+	<!-- completes the contents node in package2.xml						  -->
+	<!-- ==================================================================== -->
+	<target name="pre-package" depends="prepare-pear" description="Copies the package definition file to the target directory.">
+		<tstamp>  
+		 	<format property="actual.date" pattern="yyyy-MM-dd" locale="en" />  
+		</tstamp>
+		<tstamp>  
+		 	<format property="actual.time" pattern="hh:mm:ss" locale="en" />  
+		</tstamp>
+		<exec dir="${php-target.dir}/pear" executable="pear">
+			<arg line="generate-contents -T ${pear.dir}/package2.xml -S ${php-target.dir}/${unique.name} -D ${php-target.dir} -M ${unique.name}"/>
+		</exec>
+        <copy tofile="${php-target.dir}/${unique.name}/package2.xml" file="${php-target.dir}/package2.xml">
+        	<filterchain>
+				<expandproperties/>
+			</filterchain>
+		</copy>
+	</target>
+    <!-- ==================================================================== -->
+    <!-- Generates the PEAR package                                           -->
+    <!-- ==================================================================== -->
+    <target name="create-package" depends="pre-package" description="Generates the PEAR package.">
+        <exec dir="${php-target.dir}/${unique.name}" command="${php-target.dir}/pear/pear mage-package package2.xml"/>
+    </target>
+	<!-- ==================================================================== -->
+	<!-- Generates the API documentation									  -->
+	<!-- ==================================================================== -->	
+	<target name="apidoc" depends="prepare-pear" description="Generates the API documentation.">
+		 <exec executable="${bin.dir}/phpdoc" dir="${php-target.dir}/${unique.name}">  
+		 	<arg line="-ct type -ue on -t ${php-target.dir}/docs -o HTML:Smarty:PHP -d ${php-src.dir}"/>  
+		 </exec>
+	</target>
+	<!-- ==================================================================== -->
+	<!-- Runs the code sniffer and generates a report						  -->
+	<!-- ==================================================================== -->
+	<target name="sniffer" depends="apidoc" description="Runs the code sniffer and generates a report.">
+		<exec command="${bin.dir}/phpcs --standard=ZEND --report=checkstyle --report-file=${php-target.dir}/reports/checkstyle.xml ${php-src.dir} "/>
+	</target>
+    <!-- ==================================================================== -->
+    <!-- Runs the PHPDepend tool and generats a graphs                        -->
+    <!-- ==================================================================== -->
+    <target name="pdepend" depends="sniffer" description="Runs the PHPDepend tool and generats a graphs.">
+        <exec command="${bin.dir}/pdepend" dir="${php-src.dir}" failonerror="true">
+            <arg line="--summary-xml=${basedir}/target/reports/pdepend.xml --jdepend-chart=${basedir}/target/reports/pdepend.svg --overview-pyramid=${basedir}/target/reports/pdepend-pyramid.svg ." />
+        </exec>
+        <xslt style="/usr/share/ant/etc/jdepend.xsl" in="${php-target.dir}/reports/pdepend.xml" out="${php-target.dir}/reports/pdepend.html" />
+    </target>
+	<!-- ==================================================================== -->
+	<!-- Copies the test sources to the target directory					  -->
+	<!-- ==================================================================== -->
+	<target name="copy-tests" depends="pdepend" description="Copies the test sources to the target directory.">
+		<copy todir="${php-target.dir}/${unique.name}">
+			<fileset dir="${php-test.dir}">
+				<include name="**/*" />
+			</fileset>
+			<filterchain>
+				<expandproperties/>
+			</filterchain>
+		</copy>
+	</target>
+	<!-- ==================================================================== -->
+	<!-- Runs the PHPUnit tests and generates a report						  -->
+	<!-- ==================================================================== -->
+	<target name="run-tests" depends="copy-tests" description="Runs the PHPUnit tests and generates a report.">
+		<exec dir="${php-target.dir}" command="${bin.dir}/phpunit --log-xml ${php-target.dir}/reports/phpunit.xml --log-pmd ${php-target.dir}/reports/phpunit.pmd.xml --coverage-clover ${php-target.dir}/reports/coverage/clover.xml --coverage-html ${php-target.dir}/reports/coverage/ ${unique.name}/app/code/local/Faett/Manager/AllTests"/>
+		<xslt style="phpunit-to-hudson.xsl" in="${php-target.dir}/reports/phpunit.xml" out="${php-target.dir}/reports/phpunit.hudson.xml"/>
+	</target>
+	<!-- ==================================================================== -->
+	<!-- Runs the PHPUnit tests and generates a report						  -->
+	<!-- ==================================================================== -->
+	<target name="build" depends="run-tests" description="Runs the PHPUnit tests and generates a report.">
+		<!-- add Hudson build here -->
+	</target>
+	<!-- ==================================================================== -->
+	<!-- Extracts the Magento sources to the magento-src directory			  -->
+	<!-- ==================================================================== -->
+	<target name="init" description="Extracts the Magento sources to the magento-src directory.">
+		<delete dir="${magento-src.dir}" includeemptydirs="true" quiet="false" verbose="true" failonerror="true"/>
+		<mkdir dir="${tmp.dir}"/>
+		<mkdir dir="${magento-src.dir}"/>
+		<get src="http://www.magentocommerce.com/downloads/assets/${magento.version}/magento-${magento.version}.tar.gz" dest="${tmp.dir}/magento-${magento.version}.tar.gz"/>
+		<untar compression="gzip" src="${tmp.dir}/magento-${magento.version}.tar.gz" dest="${basedir}" />
+		<move todir="${magento-src.dir}">
+			<fileset dir="${basedir}/magento"/>
+		</move>
+		<delete dir="${tmp.dir}" includeemptydirs="true" quiet="false" verbose="true" failonerror="true"/>
+	</target>		
+</project>
